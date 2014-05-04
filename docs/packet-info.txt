@@ -16,3 +16,10 @@ When the toggle button is pressed on the mouse, these AA packets are sent FROM t
 
 CPI1: AA 55 F0 01 <CPI>
 CPI2: AA 55 F0 02 <CPI>
+
+
+UNKNOWN:
+These 2 packets are sent to the mouse only when it's initially plugged in, AND when the steelseries Engine starts up.  They don't seem to get a response.
+URB,0609,16:41:11.974,5.105999 s,,Class Interface,Set Report (Output len:32),33 00 31 00 00 00 00 32...,out,,FFFFFA800AB72A00h,00000081,usbccgp,FFFFFA800AB2E350h,,33 00 31 00 00 00 00 32 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+URB,0589,16:41:11.915,5.047042 s,,Class Interface,Set Report (Output len:32),31 00 01 00 00 00 00 02...,out,,FFFFFA800AB72A00h,00000081,usbccgp,FFFFFA8009A656A0h,,31 00 01 00 00 00 00 02 00 00 00 00 03 00 00 00 00 04 00 00 00 00 05 00 00 00 00 30 00 00 00 00
+

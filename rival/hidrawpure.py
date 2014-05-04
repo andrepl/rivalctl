@@ -10,6 +10,8 @@ import fcntl
 import ioctl_opt
 
 # input.h
+import sys
+
 BUS_USB = 0x03
 BUS_HIL = 0x04
 BUS_BLUETOOTH = 0x05
@@ -17,6 +19,14 @@ BUS_VIRTUAL = 0x06
 
 # hid.h
 _HID_MAX_DESCRIPTOR_SIZE = 4096
+
+if sys.version < '3':
+    def b(x):
+        return x
+else:
+    import codecs
+    def b(x):
+        return codecs.latin_1_encode(x)[0]
 
 # hidraw.h
 class _hidraw_report_descriptor(ctypes.Structure):
@@ -114,7 +124,7 @@ class HIDRaw(object):
         Send a feature report.
         """
         length = len(report) + 1
-        buf = ctypes.create_string_buffer(chr(report_num) + report, length)
+        buf = ctypes.create_string_buffer(b(chr(report_num) + report), length)
         self._ioctl(_HIDIOCSFEATURE(length), buf, True)
 
     def getFeatureReport(self, report_num=0, length=63):

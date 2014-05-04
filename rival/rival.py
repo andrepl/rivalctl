@@ -32,6 +32,11 @@ def open_device(dev_path=None):
         dev_path = find_device_path()
     return hidraw.HIDRaw(open(dev_path, 'w+'))
 
+def is_strtype(obj):
+    try:
+        return isinstance(obj, basestring)
+    except NameError:
+        return isinstance(obj, str)
 
 def send(report, device=None):
     """send a report packet to the device"""
@@ -42,7 +47,7 @@ def send(report, device=None):
 def set_led_color(led, color):
     if led not in (LED_LOGO, LED_WHEEL):
         raise ValueError("Invalid LED: %s" % (led,))
-    if isinstance(color, basestring):
+    if is_strtype(color):
         try:
             color = webcolors.name_to_rgb(color)
         except ValueError:
@@ -123,7 +128,7 @@ class Profile(object):
     def _normalize_color(self, value):
         rgb = None
         try:
-            if isinstance(value, basestring):
+            if is_strtype(value):
                 if value.startswith("#"):
                     rgb = webcolors.hex_to_rgb(value)
                 else:
