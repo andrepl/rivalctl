@@ -12,4 +12,9 @@ setup(
     license = "GPL2",
     keywords = "steelseries rival",
     url = "https://github.com/andrepl/rivalctl/",
+    install_requires=[
+        'ioctl-opt>=1.2',
+        'pyudev>=0.16',
+        'webcolors>=1.4'
+    ],
 )
