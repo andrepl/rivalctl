@@ -1,3 +1,3 @@
 pyudev>=0.16
 webcolors>=1.4
-ioctl_opts>=1.2
+ioctl_opt>=1.2

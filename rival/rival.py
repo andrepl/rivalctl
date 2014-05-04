@@ -60,7 +60,7 @@ def set_led_style(led, style):
         raise ValueError("Invalid LED: %s" % (led,))
     if 1 <= style <= 4:
         return '\x07%s%s' % (chr(led), chr(style))
-    raise ValueError("Invalid Style, valid values are 1, 2, 3 and 4")
+    raise ValueError("Invalid Style %s, valid values are 1, 2, 3 and 4" % (style,))
 
 def set_wheel_color(color):
     return set_led_color(LED_WHEEL, color)
