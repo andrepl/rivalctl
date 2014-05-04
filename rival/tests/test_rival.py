@@ -1,5 +1,9 @@
 import os
 import unittest
+import sys
+p = os.path.dirname(os.path.realpath(__file__))
+p = os.path.realpath(os.path.join(p, '../'))
+sys.path.insert(0,p)
 from rival import *
 
 class TestBasicSets(unittest.TestCase):
