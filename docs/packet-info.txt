@@ -1,0 +1,18 @@
+
+POLLING RATE: 04 00 <01-04> [01=1000, 02=500, 03=250, 04=125]
+
+LED 01 = Logo, LED 02 = Wheel
+
+COLOR: 08 <LED> <RR> <GG> <BB>
+EFFECT: 07 <LED> <01=Steady|02-04=Breathe Speed>
+
+CPI, these 03 packets are sent when adjusting the sliders.
+CPI Defaults are 800 and 1600 (or 0x10 and 0x20) respectively.
+
+CPI1: 03 01 <CPI/50>
+CPI2: 03 02 <CPI/50>
+
+When the toggle button is pressed on the mouse, these AA packets are sent FROM the mouse.
+
+CPI1: AA 55 F0 01 <CPI>
+CPI2: AA 55 F0 02 <CPI>
