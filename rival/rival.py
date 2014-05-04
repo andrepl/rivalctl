@@ -1,3 +1,4 @@
+import os
 import yaml
 import pyudev
 import hidrawpure as hidraw
@@ -169,10 +170,29 @@ class Profile(object):
         return newprofile
 
     @classmethod
+    def find_profile(cls, name):
+        def find_profile_file(_dir):
+            for f in os.listdir(_dir):
+                n, x = os.path.splitext(f)
+                if x.lower() in ('.yml', '.yaml', ''):
+                    if n.lower() == name:
+                        return os.path.join(_dir, f)
+        profile = None
+        if os.path.exists(name):
+            return name
+        f = find_profile_file(".")
+        if f:
+            return f
+        rival_dir = os.path.join(os.path.expanduser("~"), ".rival")
+        if os.path.exists(rival_dir):
+            f = find_profile_file(rival_dir)
+        if f:
+            return f
+
+    @classmethod
     def from_yaml(cls, stream):
         cfg = yaml.load(stream)
         profile = cls.copy_profile(FACTORY_PROFILE)
-        print cfg, profile
         for k, v in cfg.items():
             if hasattr(profile, k):
                 setattr(profile, k, v)

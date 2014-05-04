@@ -1,3 +1,4 @@
+import os
 import unittest
 from rival import *
 
@@ -84,6 +85,12 @@ class TestBasicSets(unittest.TestCase):
         self.assertEqual(commit(), '\x09')
 
 
+def _set_wheel_color(profile, val):
+    profile.wheel_color = val
+
+def _set_logo_color(profile, val):
+    profile.logo_color = val
+
 class TestProfile(unittest.TestCase):
     def test_default_report_list(self):
         profile = Profile()
@@ -101,3 +108,25 @@ class TestProfile(unittest.TestCase):
         profile = Profile()
         profile.logo_color = 'white'
         self.assertEqual(profile.logo_color, (255,255,255))
+        profile.wheel_color = '#fff'
+        self.assertEqual(profile.wheel_color, (255, 255, 255))
+        self.assertRaises(ValueError, _set_wheel_color, profile, 'browny-blue')
+        self.assertRaises(ValueError, _set_logo_color, profile, 'browny-blue')
+
+
+    def test_from_yaml(self):
+        yaml="""
+                wheel_color: blue
+                wheel_style: 1
+                logo_color: blue
+                logo_style: 1"""
+        p = Profile.from_yaml(yaml)
+        self.assertEqual(p.logo_color, (0,0,255))
+        self.assertEqual(p.logo_style, LED_STYLE_STEADY)
+        self.assertEqual(p.wheel_color, (0,0,255))
+        self.assertEqual(p.wheel_style, LED_STYLE_STEADY)
+        self.assertEqual(p.polling_rate, FACTORY_PROFILE.polling_rate)
+        self.assertEqual(p.cpi1, FACTORY_PROFILE.cpi1)
+        self.assertEqual(p.cpi2, FACTORY_PROFILE.cpi2)
+
+
