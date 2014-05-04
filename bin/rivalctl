@@ -45,8 +45,7 @@ parser.add_argument("--cpi2", type=int, metavar="CPI", help="50-6500 in incremen
 parser.add_argument("--polling-rate", metavar="RATE", type=int, help="1000, 500, 250, or 125 [default=1000]")
 
 if __name__ == '__main__':
-    args = parser.parse_args()
     if len(sys.argv)==1:
         parser.print_help()
+    args = parser.parse_args()
     main(args)
-    sys.exit(1)
