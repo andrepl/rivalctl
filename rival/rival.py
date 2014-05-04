@@ -1,3 +1,4 @@
+import yaml
 import pyudev
 import hidrawpure as hidraw
 import webcolors
@@ -110,14 +111,72 @@ def set_polling_rate(rate):
 class Profile(object):
 
     def __init__(self):
-        self.logo_color = (0, 0, 0)
-        self.wheel_color = (0, 0, 0)
+        self._logo_color = (0, 0, 0)
+        self._wheel_color = (0, 0, 0)
         self.logo_style = LED_STYLE_STEADY
         self.wheel_style = LED_STYLE_STEADY
         self.cpi1 = 800
         self.cpi2 = 1600
         self.polling_rate = 1000
 
+    def _normalize_color(self, value):
+        rgb = None
+        try:
+            if isinstance(value, basestring):
+                if value.startswith("#"):
+                    rgb = webcolors.hex_to_rgb(value)
+                else:
+                    rgb = webcolors.name_to_rgb(value)
+            elif hasattr(value, '__iter__'):
+                rgb = tuple(value)
+        except ValueError as e:
+            pass
+
+        return rgb
+
+    @property
+    def logo_color(self):
+        return self._logo_color
+
+    @logo_color.setter
+    def logo_color(self, value):
+        rgb = self._normalize_color(value)
+        if not rgb:
+            raise ValueError("Invalid Color: %s" % (value,))
+        self._logo_color = rgb
+
+    @property
+    def wheel_color(self):
+        return self._wheel_color
+
+    @wheel_color.setter
+    def wheel_color(self, value):
+        rgb = self._normalize_color(value)
+        if not rgb:
+            raise ValueError("Invalid Color: %s" % (value,))
+        self._wheel_color = rgb
+
+    @classmethod
+    def copy_profile(cls, profile):
+        newprofile = Profile()
+        newprofile.logo_color = tuple(profile.logo_color)
+        newprofile.wheel_color = tuple(profile.wheel_color)
+        newprofile.logo_style = profile.logo_style
+        newprofile.wheel_style = profile.wheel_style
+        newprofile.cpi1 = profile.cpi1
+        newprofile.cpi2 = profile.cpi2
+        newprofile.polling_rate = profile.polling_rate
+        return newprofile
+
+    @classmethod
+    def from_yaml(cls, stream):
+        cfg = yaml.load(stream)
+        profile = cls.copy_profile(FACTORY_PROFILE)
+        print cfg, profile
+        for k, v in cfg.items():
+            if hasattr(profile, k):
+                setattr(profile, k, v)
+        return profile
 
     def to_report_list(self, current_state=None):
         items = [
@@ -132,6 +191,7 @@ class Profile(object):
         if current_state:
             return [i for i in items if i not in current_state]
         return items
+
 
 FACTORY_PROFILE = Profile()
 FACTORY_PROFILE.logo_color = (255, 24, 0)

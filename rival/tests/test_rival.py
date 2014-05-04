@@ -1,7 +1,6 @@
 import unittest
 from rival import *
 
-
 class TestBasicSets(unittest.TestCase):
 
     def test_set_led_color(self):
@@ -98,3 +97,7 @@ class TestProfile(unittest.TestCase):
         self.assertIn('\x03\x02\x20', reportlist)
         self.assertEqual(len(reportlist), 7)
 
+    def test_color_setters(self):
+        profile = Profile()
+        profile.logo_color = 'white'
+        self.assertEqual(profile.logo_color, (255,255,255))
