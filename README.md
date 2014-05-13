@@ -1,7 +1,16 @@
+
+
+WARNING: This is an unofficial tool, and it's functionality is limited to what I was able to reverse engineer.
+
+SteelSeries does not and will not support Linux users, so please take your business elsewhere.  This tool is for those unfortunate enough to have already purchased this mouse and realized it's crippled under linux.
+
+
+
 rivalctl
 --------
 
 Commandline tool to configure the SteelSeries Rival Gaming Mouse under linux.
+
 
 Installation
 ============
